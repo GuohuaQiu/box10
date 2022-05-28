@@ -17,10 +17,15 @@ def clear_h():
     for a in range(0,5):
         for b in range(0,4):
             data_h[a][b] = 0
+def clear_m():
+    for a in range(0,5):
+        for b in range(0,5):
+            data_m[a][b] = 0
 
 def clear():
     clear_h()
     clear_v()
+    clear_m()
 
 def find_near_h(a,b):
     clear()
@@ -78,11 +83,12 @@ def print_game():
                     else:
                         print_v()
         print(" ")
+    for a in data_m:
+        print(a)
 
 
 
 class Zube:
-    #例如empCount就是类变量
     def __init__(self, color,ph, pv, pm):
         self.can_mirror = 1
         self.can_rotate = 1
@@ -112,31 +118,36 @@ class Zube:
             data_h[x[0]][x[1]] = 1
         for x in self.point_v:
             data_v[x[0]][x[1]] = 1
+        for x in self.point_m:
+            data_m[x[0]][x[1]] = 1
         print_game()
-    def fill_game(self, game):
-        for x in self.point_h:
-            if game.data_h[x[0]][x[1]] != 0:
-                return False
-        for x in self.point_v:
-            if game.data_h[x[0]][x[1]] != 0:
-                return False
-        for x in self.point_h:
+    # def fill_game(self, game):
+    #     for x in self.point_h:
+    #         if game.data_h[x[0]][x[1]] != 0:
+    #             return False
+    #     for x in self.point_v:
+    #         if game.data_h[x[0]][x[1]] != 0:
+    #             return False
+    #     for x in self.point_h:
             # print("->",x)
-            game.data_h[x[0]][x[1]] = self.color
-        for x in self.point_v:
-            game.data_v[x[0]][x[1]] = self.color
-        return True
+    #         game.data_h[x[0]][x[1]] = self.color
+    #     for x in self.point_v:
+    #         game.data_v[x[0]][x[1]] = self.color
+    #     return True
     def fill_panel(self, ph, pv, pm):
         for x in self.point_h:
             if ph[x[0]][x[1]] != 0:
+                print("e:",x[0],x[1],"->",ph[x[0]][x[1]])
                 return False
         for x in self.point_v:
             if pv[x[0]][x[1]] != 0:
+                print("ve:",x[0],x[1],"->",pv[x[0]][x[1]])
                 return False
         for x in self.point_m:
             if pm[x[0]][x[1]] != 0:
+                print("me:",x[0],x[1],"->",pm[x[0]][x[1]])
                 return False
-                
+
         for x in self.point_h:
             ph[x[0]][x[1]] = self.color
         for x in self.point_v:
@@ -205,7 +216,7 @@ class Zube:
             v[1] = self.hblock - v[1]
         self.mirrored = 1
         self.angle = 0
-    
+
     def move_right(self):
         if((self.hblock + self.posx ) < 4):
             for h  in self.point_h:
@@ -244,9 +255,9 @@ class Zube:
         return False
 
     def reset(self):
-        self.mirrored = 0 
+        self.mirrored = 0
         self.angle = 0
-        self.move_head()       
+        self.move_head()
 
     def move_head(self):
         if(self.posx >0):
@@ -266,7 +277,7 @@ class Zube:
                 v[0] -= self.posy
             self.posy =0
         self.move_direct = 0
-    
+
 
     def move_next_in_one_direct(self):
         if(self.move_direct == 0):
@@ -294,14 +305,14 @@ class Zube:
                 self.move_head()
                 # self.print_game()
                 self.mirror()
-                return True  
+                return True
             return False
         self.move_head()
         self.dclock90()
-        
+
         return True
 
-        
+
     def move_all(self):
         for i in range(0,4):
             ret = True
@@ -345,7 +356,7 @@ class Zube:
 
 class Game:
     def __init__(self):
-        
+
         self.data_h = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
         self.data_v = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
         self.data_m = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
@@ -366,14 +377,14 @@ class Game:
         self.allcube[2].set_can_mirror(0)
         self.allcube[2].set_can_rotate(0)
         # U
-        self.allcube.append(Zube(4,[[1,0],[1,1]],[[0,0],[0,2]],[[0,1]]))
+        self.allcube.append(Zube(4,[[1,0],[1,1]],[[0,0],[0,2]],[[1,1]]))
         self.allcube[3].set_can_mirror(0)
         # F
         self.allcube.append(Zube(5,[[1,0],[1,1]],[[0,0],[0,1]],[[1,1]]))
         # 4
         self.allcube.append(Zube(6,[[0,0],[1,0],[1,1]],[[0,1]],[[1,1]]))
         # W
-        self.allcube.append(Zube(7,[[1,0],[0,1]],[[0,1],[1,0]],[[1,1]]))
+        self.allcube.append(Zube(7,[[1,0],[0,1]],[[0,1],[1,0]],[]))
         self.allcube[6].set_can_mirror(0)
         # t
         self.allcube.append(Zube(8,[[1,0],[1,1]],[[0,1],[1,0]],[[1,1]]))
@@ -386,8 +397,8 @@ class Game:
         start_time = time.time()
 
         playing_data_h = (self.data_h)
-        playing_data_v = (self.data_v)        
-        playing_data_m = (self.data_m)        
+        playing_data_v = (self.data_v)
+        playing_data_m = (self.data_m)
 
 
         self.head = None
@@ -397,10 +408,12 @@ class Game:
             if self.head is None:
                 self.head = self.allcube[i]
                 base = self.head
+                base.prev = None
             else:
                 base.next = self.allcube[i]
                 self.allcube[i].prev = base
                 base = self.allcube[i]
+        base.next = None
         while True:
             base.print_game()
             base = base.prev
@@ -420,23 +433,27 @@ class Game:
         while True:
             if self.godown == 0:
                 self.work_cube.clear_panel(playing_data_h,playing_data_v,playing_data_m)
-                # print(self.work_cube.color, "clear panel.")
+                print(self.work_cube.color, "clear panel.")
                 count -= 1
                 if self.work_cube.move_next() == False:
-                    # print(self.work_cube.color, "no place to locate...")
+                    print(self.work_cube.color, "no place to locate...")
+                    temp = self.work_cube
                     self.work_cube = self.work_cube.prev
                     if (self.work_cube is None):
+                        print("this is last tried.")
+                        temp.print_game()
+                        print("this is head.")
                         print("all is tried. Error")
                         return
-                    continue                   
+                    continue
 
             while True:
                 if self.work_cube.fill_panel(playing_data_h,playing_data_v,playing_data_m):
-                    # print(self.work_cube.color, "fill panel.")
+                    print(self.work_cube.color, "fill panel.")
                     if self.work_cube.next is None:
                         print("Success")
                         self.print_game()
-                        end_time = time.time()    
+                        end_time = time.time()
                         print("Total time:",end_time-start_time)
                         return
                     self.work_cube = self.work_cube.next
@@ -447,7 +464,7 @@ class Game:
                         max = count
                         self.print_game()
                     break
-                  
+
                 else:
                     if self.work_cube.move_next():
                         # print(self.work_cube.color, self.work_cube.mirrored, self.work_cube.angle ,"move next.")
@@ -462,7 +479,7 @@ class Game:
                         self.godown = 0
                         break
 
-     
+
 
 
     def clear(self):
@@ -475,7 +492,8 @@ class Game:
     def clear0(self):
         self.data_h = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
         self.data_v = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
-    
+        self.data_m = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+
     def print_char(self,c,color):
         A = "\033[0;" + str(self.colortype[color][1]) + ";" + str(self.colortype[color][0]) + "m" + c + "\033[0m"
         print(A, end ="")
@@ -485,7 +503,7 @@ class Game:
     #         self.clear0()
     #         cube.fill_game(self)
     #         self.print_game()
-    
+
     def print_game(self):
         for h in range(0,5):
             for v in range(0,9):
@@ -502,37 +520,39 @@ class Game:
     def test_10(self):
         self.allcube[0].dclock90()
         self.allcube[1].mirror()
-        # self.allcube[2].move_right()
-        self.allcube[3].move_down()
-        self.allcube[3].move_down()
-        self.allcube[3].move_down()
+        # self.allcube[3].move_down()
+        # self.allcube[3].move_down()
+        # self.allcube[3].move_down()
 
-        self.allcube[7].dclock90()
-        self.allcube[7].dclock90()
-        self.allcube[7].dclock90()
+        # self.allcube[7].dclock90()
+        # self.allcube[7].dclock90()
+        # self.allcube[7].dclock90()
 
-        self.allcube[7].move_down()
-        self.allcube[7].move_down()
+        # self.allcube[7].move_down()
+        # self.allcube[7].move_down()
 
-        self.allcube[8].dclock90()
-        self.allcube[8].dclock90()
-        self.allcube[8].dclock90()
-        self.allcube[8].move_down()
-        self.allcube[8].move_down()
-        self.allcube[8].move_right()
+        # self.allcube[8].dclock90()
+        # self.allcube[8].dclock90()
+        # self.allcube[8].dclock90()
+        # self.allcube[8].move_down()
+        # self.allcube[8].move_down()
+        # self.allcube[8].move_right()
 
         playing_data_h = (self.data_h)
-        playing_data_v = (self.data_v)        
-        playing_data_m = (self.data_m)        
+        playing_data_v = (self.data_v)
+        playing_data_m = (self.data_m)
 
         self.allcube[0].fill_panel(playing_data_h,playing_data_v,playing_data_m)
         self.allcube[1].fill_panel(playing_data_h,playing_data_v,playing_data_m)
         self.allcube[2].fill_panel(playing_data_h,playing_data_v,playing_data_m)
-        self.allcube[3].fill_panel(playing_data_h,playing_data_v,playing_data_m)
-        self.allcube[7].fill_panel(playing_data_h,playing_data_v,playing_data_m)
-        self.allcube[8].fill_panel(playing_data_h,playing_data_v,playing_data_m)
+        # self.allcube[3].fill_panel(playing_data_h,playing_data_v,playing_data_m)
+        # self.allcube[7].fill_panel(playing_data_h,playing_data_v,playing_data_m)
+        # self.allcube[8].fill_panel(playing_data_h,playing_data_v,playing_data_m)
+        print("Test:")
+        self.print_game()
+        # return
 
-        self.play([4,5,6,9])
+        self.play([3,8,4,5,6,9,7])
         self.print_game()
     def test_24(self):
         self.allcube[3].dclock90()
@@ -540,13 +560,13 @@ class Game:
         self.allcube[2].move_right()
         self.allcube[2].move_down()
         playing_data_h = (self.data_h)
-        playing_data_v = (self.data_v)        
-        playing_data_m = (self.data_m)        
+        playing_data_v = (self.data_v)
+        playing_data_m = (self.data_m)
         self.allcube[2].fill_panel(playing_data_h,playing_data_v,playing_data_m)
         self.allcube[3].fill_panel(playing_data_h,playing_data_v,playing_data_m)
 
 
-        
+
         self.play([0,7,8,9,1,4,5,6])
         self.print_game()
 
@@ -555,9 +575,9 @@ class Game:
 if __name__ == '__main__':
 
     g = Game()
-    g.test_10()
+    g.test_24()
 
-     
+
     # g.allcube[6].test_all_possible()
 
 
