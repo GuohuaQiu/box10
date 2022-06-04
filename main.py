@@ -37,6 +37,11 @@ class Game:
         self.allcube.append(Zube(9,[[0,0],[1,0]],[[1,0],[0,1]],[]))
         # l
         self.allcube.append(Zube(10,[[2,0]],[[0,0],[1,0],[1,1]],[[1,0]]))
+
+    @staticmethod
+    def log_on():
+        return False
+
     def play(self, to_locate):
 
         start_time = time.time()
@@ -73,10 +78,12 @@ class Game:
         while True:
             if self.godown == 0:
                 self.work_cube.clear_panel(self.panel)
-                print(self.work_cube.color, "clear panel.")
+                if Game.log_on():
+                    print(self.work_cube.color, "clear panel.")
                 count -= 1
                 if self.work_cube.move_next() == False:
-                    print(self.work_cube.color, "no place to locate...")
+                    if Game.log_on():
+                        print(self.work_cube.color, "no place to locate...")
                     temp = self.work_cube
                     self.work_cube = self.work_cube.prev
                     if (self.work_cube is None):
@@ -89,7 +96,8 @@ class Game:
 
             while True:
                 if self.work_cube.fill_panel(self.panel):
-                    print(self.work_cube.color, "fill panel.")
+                    if Game.log_on():
+                        print(self.work_cube.color, "fill panel.")
                     if self.work_cube.next is None:
                         print("Success")
                         self.panel.print_game()
@@ -111,7 +119,9 @@ class Game:
                         continue
                     else:
                         self.work_cube.move_head()
-                        print(self.work_cube.color, "no place to locate.")
+
+                        if Game.log_on():
+                            print(self.work_cube.color, "no place to locate.")
                         self.work_cube = self.work_cube.prev
                         if (self.work_cube is None):
                             print("Error")
@@ -173,10 +183,10 @@ class Game:
 if __name__ == '__main__':
 
     g = Game()
-    # g.test_10()
+    g.test_24()
 
 
-    g.allcube[6].test_all_possible()
+    # g.allcube[6].test_all_possible()
 
 
 
