@@ -5,6 +5,7 @@ CRAZY LINE通关
 在买魔方时，卖家送了一个小玩具，长这样
 
 ![](https://github.com/GuohuaQiu/box10/blob/main/game.jpg)
+![](https://github.com/GuohuaQiu/box10/blob/main/game_1%20(2).jpg）
 前面的关卡比较简单，越到后面越脑，小宝又缠我快点解出来，于是决定用PYTHON写一个算法来搞定。
 
 但如何能表示这些图形呢，我只想快速的写解决算法，UI上并不想多花心思。
