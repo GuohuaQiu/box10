@@ -8,7 +8,8 @@ CRAZY LINE通关
 
 
 
-![](https://github.com/GuohuaQiu/box10/blob/main/game_1%20(2).jpg）
+![](https://github.com/GuohuaQiu/box10/blob/main/game_stage.jpg）
+
 前面的关卡比较简单，越到后面越脑，小宝又缠我快点解出来，于是决定用PYTHON写一个算法来搞定。
 
 但如何能表示这些图形呢，我只想快速的写解决算法，UI上并不想多花心思。
