@@ -9,8 +9,10 @@ Image:
 
 ![](https://github.com/GuohuaQiu/box10/blob/main/game.jpg)
 
-注意：如果看不到上面的图片，可查看这儿
+注意：如果看不到上面的图片，可查看以下文档
+
 文档：CRAZY LINE通关.note
+
 链接：http://note.youdao.com/noteshare?id=2b9f3c5d2f9c80259e8a110534e80794&sub=6B9292A568574D6A9221841788ECE501
 
 
